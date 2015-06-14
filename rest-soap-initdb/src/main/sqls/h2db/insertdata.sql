@@ -1,0 +1,1 @@
+insert into item(id, price) values(1, 100)

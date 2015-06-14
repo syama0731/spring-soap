@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns:p="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://localhost:8080/rest-soap-web/soap/item/" name="itemPortType" targetNamespace="http://localhost:8080/rest-soap-web/soap/item/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://localhost:8080/rest-soap-web/soap/item/">
+      <xsd:element name="GetItem">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetItemResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:string"/>
+            <xsd:element name="price" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+  <message name="GetItemRequest">
+    <part element="tns:GetItem" name="parameters"/>
+  </message>
+  <message name="GetItemResponse">
+    <part element="tns:GetItemResponse" name="parameters"/>
+  </message>
+  <portType name="item">
+    <operation name="GetItem">
+      <input message="tns:GetItemRequest"/>
+      <output message="tns:GetItemResponse"/>
+    </operation>
+  </portType>
+</definitions>

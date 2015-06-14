@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:sws="http://www.springframework.org/schema/web-services"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/web-services http://www.springframework.org/schema/web-services/web-services.xsd">
+
+    <sws:annotation-driven/>
+    
+    <context:property-placeholder
+        location="classpath*:/META-INF/spring/*.properties" />
+
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean
+                class="org.springframework.data.web.PageableHandlerMethodArgumentResolver" />
+            <bean
+                class="org.springframework.security.web.bind.support.AuthenticationPrincipalArgumentResolver" />
+        </mvc:argument-resolvers>
+        
+        <mvc:message-converters register-defaults="false">
+            <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+                <property name="marshaller" ref="xmlMarshaller" />
+                <property name="unmarshaller" ref="xmlMarshaller" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <mvc:default-servlet-handler />
+
+    <context:component-scan base-package="com.sample.spring.app" />
+    
+    <bean id="xmlMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="packagesToScan" value="com.sample.spring.domain.model" />
+    </bean>
+    
+    <bean class="org.springframework.ws.server.endpoint.adapter.method.MarshallingPayloadMethodProcessor">
+        <property name="marshaller" ref="xmlMarshaller"/>
+        <property name="unmarshaller" ref="xmlMarshaller"/>
+    </bean>
+    
+    <bean class="org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping"/>
+    
+    <bean class="org.springframework.ws.transport.http.WebServiceMessageReceiverHandlerAdapter">
+        <property name="messageFactory" ref="messageFactory"/>
+    </bean>
+
+    <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory">
+<!--         <property name="messageFactory" ref="messageFactoryImpl"/> -->
+    </bean>
+    
+<!--     <bean id="messageFactoryImpl" class="org.springframework.ws.soap.axiom.AxiomSoapMessageFactory"> -->
+<!--     </bean> -->
+    
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+           <props>
+             <prop key="*.wsdl">item</prop>
+           </props>
+        </property>
+        <property name="defaultHandler" ref="messageDispatcher"/>
+    </bean>
+    
+<!--     <bean id="myServiceDefinition" class="org.springframework.ws.wsdl.wsdl11.SimpleWsdl11Definition"> -->
+<!--        <property name="wsdl" value="/WEB-INF/wsdl/item.wsdl"/> -->
+<!--     </bean> -->
+    <bean id="item" class="org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition">
+        <property name="locationUri" value="http://localhost:8080/rest-soap-web/soap"/>
+        <property name="portTypeName" value="GetItemRequest"/>
+        <property name="targetNamespace" value="http://localhost:8080/rest-soap-web/soap"/>
+        <property name="schema" ref="itemSchema"/>
+    </bean>
+    
+    <bean id="itemSchema" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="/WEB-INF/xsd/item.xsd"/>
+    </bean>
+    
+    <bean id="messageDispatcher" class="org.springframework.ws.soap.server.SoapMessageDispatcher"/>
+    
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+    
+    <bean class="org.springframework.ws.transport.http.WsdlDefinitionHandlerAdapter"/>
+    
+</beans>
