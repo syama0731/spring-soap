@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: rest-soap-selenium
-Implementation-Version: 1.0-SNAPSHOT
-Built-By: sin
-Implementation-Vendor-Id: com.sample.spring
-Build-Jdk: 1.8.0
-Created-By: Maven Integration for Eclipse
-Implementation-Vendor: TERASOLUNA Framework Team
-
