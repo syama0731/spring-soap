@@ -7,9 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "id"
-})
 @XmlRootElement(name="GetItemRequest", namespace="http://localhost:8080/rest-soap-web/soap")
 public class GetItemRequest {
 
