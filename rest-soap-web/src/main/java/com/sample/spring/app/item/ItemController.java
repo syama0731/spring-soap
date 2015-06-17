@@ -17,19 +17,15 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.sample.spring.domain.model.GetItemRequest;
 import com.sample.spring.domain.model.GetItemResponse;
 import com.sample.spring.domain.service.ItemService;
-import com.sample.spring.domain.service.ItemServiceImple;
+import com.sample.spring.domain.service.ItemServiceImpl;
 
-@RestController
-@RequestMapping("items")
 @Endpoint
 public class ItemController {
 
     Logger logger = LoggerFactory.getLogger(ItemController.class);
     
-    private ItemService itemService = new ItemServiceImple();
+    private ItemService itemService = new ItemServiceImpl();
     
-    @RequestMapping(value="{id}", method=RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
     @PayloadRoot(localPart="GetItemRequest", namespace="http://localhost:8080/rest-soap-web/soap")
     @ResponsePayload
     public GetItemResponse getItem(@RequestPayload GetItemRequest id) {

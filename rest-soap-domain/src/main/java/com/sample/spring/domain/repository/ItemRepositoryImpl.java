@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.sample.spring.domain.model.GetItemResponse;
 
-public class ItemRepositoryImple implements ItemRepostiry {
+public class ItemRepositoryImpl implements ItemRepostiry {
 
     private static HashMap<Integer, GetItemResponse> items;
     

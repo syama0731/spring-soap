@@ -1,8 +1,15 @@
 package com.sample.spring.domain.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "", propOrder = {
+        "id", "price"
+    })
+@XmlRootElement(name="GetItemResponse", namespace="http://localhost:8080/rest-soap-web/soap")
 public class GetItemResponse {
 
     private int id;
